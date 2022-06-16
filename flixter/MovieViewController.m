@@ -17,6 +17,38 @@
 
 @implementation MovieViewController
 
+// Makes a network request to get updated data
+// Updates the tableView with the new data
+// Hides the RefreshControl
+- (void)beginRefresh:(UIRefreshControl *)refreshControl {
+
+      // Create NSURL and NSURLRequest
+
+      NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                            delegate:nil
+                                                       delegateQueue:[NSOperationQueue mainQueue]];
+      session.configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+  
+      NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=0363a94d02caa988558131c145d73974"];
+
+      NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    
+      NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+  
+         // ... Use the new data to update the data source ...
+
+         // Reload the tableView now that there is new data
+          [self.tableView reloadData];
+
+         // Tell the refreshControl to stop spinning
+          [refreshControl endRefreshing];
+
+      }];
+  
+      [task resume];
+}
+
 
 - (void)viewDidLoad {
     [self.activityIndicator startAnimating];
@@ -27,6 +59,13 @@
     
 
     [super viewDidLoad];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    // add refresh control to table view
+    [self.tableView insertSubview:refreshControl atIndex:0];
+
+
     NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=0363a94d02caa988558131c145d73974"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
