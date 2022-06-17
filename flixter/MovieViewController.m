@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSArray *resultsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation MovieViewController
@@ -22,6 +23,11 @@
 // Updates the tableView with the new data
 // Hides the RefreshControl
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
+      [self.activityIndicator startAnimating];
+    NSTimeInterval delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+
 
       // Create NSURL and NSURLRequest
 
@@ -36,68 +42,56 @@
     
       NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                               completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-  
-         // ... Use the new data to update the data source ...
+          if (error != nil) {
+              UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
+                                         message:@"The internet connection appears to be offline."
+                                         preferredStyle:UIAlertControllerStyleAlert];
 
-         // Reload the tableView now that there is new data
-          [self.tableView reloadData];
+              UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {[self beginRefresh:self.refreshControl];}];
 
-         // Tell the refreshControl to stop spinning
-          [refreshControl endRefreshing];
+              [alert addAction:retryAction];
+              [self presentViewController:alert animated:YES completion:nil];
 
+          }
+          else {
+              
+              // ... Use the new data to update the data source ...
+              NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+              NSLog(@"%@", dataDictionary);
+
+              self.resultsArray = dataDictionary[@"results"];
+
+              // Reload the tableView now that there is new data
+               [self.tableView reloadData];
+
+              // Tell the refreshControl to stop spinning
+               [refreshControl endRefreshing];
+          }
+          [self.activityIndicator stopAnimating];
       }];
-  
+      
       [task resume];
+    });
 }
 
 
 - (void)viewDidLoad {
-    [self.activityIndicator startAnimating];
-    NSTimeInterval delayInSeconds = 0.2;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 
     
 
     [super viewDidLoad];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+
     // add refresh control to table view
-    [self.tableView insertSubview:refreshControl atIndex:0];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 
-
-    NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=0363a94d02caa988558131c145d73974"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-           if (error != nil) {
-               UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
-                                          message:@"The internet connection appears to be offline."
-                                          preferredStyle:UIAlertControllerStyleAlert];
-
-               UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
-                                              handler:^(UIAlertAction * action) {}];
-
-               [alert addAction:retryAction];
-               [self presentViewController:alert animated:YES completion:nil];
-
-           }
-           else {
-               NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               NSLog(@"%@", dataDictionary);
-
-               // TODO: Get the array of movies
-               // TODO: Store the movies in a property to use elsewhere
-               self.resultsArray = dataDictionary[@"results"];
-               // TODO: Reload your table view data
-               [self.tableView reloadData];
-           }
-       }];
-    [task resume];
+    [self beginRefresh:self.refreshControl];
+    
     self.tableView.dataSource = self;
-    [self.activityIndicator stopAnimating];
-    });
+
 }
 
 /*
