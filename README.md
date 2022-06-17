@@ -39,8 +39,8 @@ Please list two areas of the assignment you'd like to **discuss further with you
 during the next class (examples include better ways to implement something, how to extend 
 your app in certain ways, etc):
 
-1.
-2.
+1. Adding a search bar
+2. Fading pictures in
 
 ## Video Walkthrough
 
@@ -55,7 +55,7 @@ GIF created with [Kap](https://getkap.co/).
 
 Describe any challenges encountered while building the app.
 
-Figuring out how pipe API data to screen
+Figuring out how pipe API data to screen took a while, but after learning how to do that everything became much faster.
 
 ## Credits
 
