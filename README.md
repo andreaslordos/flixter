@@ -1,3 +1,4 @@
+
 # Project 1 - *Flixter*
 
 **Flixter** is a movies app using the [The Movie Database 
@@ -46,8 +47,7 @@ your app in certain ways, etc):
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' 
-alt='Video Walkthrough' />
+![Video Walkthrough](https://i.imgur.com/MMirIaq.gif)
 
 GIF created with [Kap](https://getkap.co/).
 
