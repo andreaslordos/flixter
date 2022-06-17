@@ -21,6 +21,7 @@
 		BF529F91285A46DA00B69D43 /* flixterUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529F90285A46DA00B69D43 /* flixterUITestsLaunchTests.m */; };
 		BF529F9F285A4D2100B69D43 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529F9E285A4D2100B69D43 /* MovieViewController.m */; };
 		BF529FA2285A791500B69D43 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FA1285A791500B69D43 /* TableViewCell.m */; };
+		BF529FF5285BEC6F00B69D43 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */; };
 		F0A224513852A513EBF1C86C /* Pods_flixter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB9E5CC37BCDC85911230FE /* Pods_flixter.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,8 @@
 		BF529F9E285A4D2100B69D43 /* MovieViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieViewController.m; sourceTree = "<group>"; };
 		BF529FA0285A791500B69D43 /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		BF529FA1285A791500B69D43 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
+		BF529FF3285BEC6F00B69D43 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		D8906682A54D790F25A68B2A /* Pods-flixterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixterTests.debug.xcconfig"; path = "Target Support Files/Pods-flixterTests/Pods-flixterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E719D9B70D9B47DB5173EA43 /* Pods-flixter-flixterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixter-flixterUITests.release.xcconfig"; path = "Target Support Files/Pods-flixter-flixterUITests/Pods-flixter-flixterUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EA679A6E746368039A0FD48D /* Pods-flixterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixterTests.release.xcconfig"; path = "Target Support Files/Pods-flixterTests/Pods-flixterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				BF529F6B285A46D900B69D43 /* SceneDelegate.h */,
 				BF529F6C285A46D900B69D43 /* SceneDelegate.m */,
 				BF529F6E285A46D900B69D43 /* ViewController.h */,
+				BF529FF3285BEC6F00B69D43 /* DetailsViewController.h */,
+				BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */,
 				BF529F6F285A46D900B69D43 /* ViewController.m */,
 				BF529F71285A46D900B69D43 /* Main.storyboard */,
 				BF529F74285A46DA00B69D43 /* Assets.xcassets */,
@@ -173,7 +178,6 @@
 				D8906682A54D790F25A68B2A /* Pods-flixterTests.debug.xcconfig */,
 				EA679A6E746368039A0FD48D /* Pods-flixterTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -429,6 +433,7 @@
 				BF529FA2285A791500B69D43 /* TableViewCell.m in Sources */,
 				BF529F9F285A4D2100B69D43 /* MovieViewController.m in Sources */,
 				BF529F6A285A46D900B69D43 /* AppDelegate.m in Sources */,
+				BF529FF5285BEC6F00B69D43 /* DetailsViewController.m in Sources */,
 				BF529F7B285A46DA00B69D43 /* main.m in Sources */,
 				BF529F6D285A46D900B69D43 /* SceneDelegate.m in Sources */,
 			);

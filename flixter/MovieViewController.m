@@ -8,7 +8,8 @@
 #import "MovieViewController.h"
 #import "TableViewCell.h"
 #import "UIImageView+AFNetworking.h"
- 
+#import "DetailsViewController.h"
+
 @interface MovieViewController () <UITableViewDataSource>
 @property (nonatomic, strong) NSArray *resultsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -71,7 +72,16 @@
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
            if (error != nil) {
-               NSLog(@"%@", [error localizedDescription]);
+               UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
+                                          message:@"The internet connection appears to be offline."
+                                          preferredStyle:UIAlertControllerStyleAlert];
+
+               UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
+                                              handler:^(UIAlertAction * action) {}];
+
+               [alert addAction:retryAction];
+               [self presentViewController:alert animated:YES completion:nil];
+
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
@@ -119,6 +129,14 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //NSLog(@"Size: %lu", [self.resultsArray count]);
     return [self.resultsArray count];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    NSDictionary *dataToPass = self.resultsArray[indexPath.row];
+    DetailsViewController *detailVC = [segue destinationViewController];
+    detailVC.detailDict = dataToPass;
 }
 
 @end
