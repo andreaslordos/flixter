@@ -22,6 +22,8 @@
 		BF529F9F285A4D2100B69D43 /* MovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529F9E285A4D2100B69D43 /* MovieViewController.m */; };
 		BF529FA2285A791500B69D43 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FA1285A791500B69D43 /* TableViewCell.m */; };
 		BF529FF5285BEC6F00B69D43 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */; };
+		BF529FF8285D048E00B69D43 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FF7285D048E00B69D43 /* CollectionViewController.m */; };
+		BF529FFB285D04E300B69D43 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FFA285D04E300B69D43 /* CollectionViewCell.m */; };
 		F0A224513852A513EBF1C86C /* Pods_flixter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB9E5CC37BCDC85911230FE /* Pods_flixter.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +73,10 @@
 		BF529FA1285A791500B69D43 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		BF529FF3285BEC6F00B69D43 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		BF529FF6285D048E00B69D43 /* CollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
+		BF529FF7285D048E00B69D43 /* CollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
+		BF529FF9285D04E300B69D43 /* CollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		BF529FFA285D04E300B69D43 /* CollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		D8906682A54D790F25A68B2A /* Pods-flixterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixterTests.debug.xcconfig"; path = "Target Support Files/Pods-flixterTests/Pods-flixterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E719D9B70D9B47DB5173EA43 /* Pods-flixter-flixterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixter-flixterUITests.release.xcconfig"; path = "Target Support Files/Pods-flixter-flixterUITests/Pods-flixter-flixterUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EA679A6E746368039A0FD48D /* Pods-flixterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixterTests.release.xcconfig"; path = "Target Support Files/Pods-flixterTests/Pods-flixterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -141,6 +147,10 @@
 				BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */,
 				BF529F6F285A46D900B69D43 /* ViewController.m */,
 				BF529F71285A46D900B69D43 /* Main.storyboard */,
+				BF529FF9285D04E300B69D43 /* CollectionViewCell.h */,
+				BF529FFA285D04E300B69D43 /* CollectionViewCell.m */,
+				BF529FF6285D048E00B69D43 /* CollectionViewController.h */,
+				BF529FF7285D048E00B69D43 /* CollectionViewController.m */,
 				BF529F74285A46DA00B69D43 /* Assets.xcassets */,
 				BF529F76285A46DA00B69D43 /* LaunchScreen.storyboard */,
 				BF529F9D285A4D2100B69D43 /* MovieViewController.h */,
@@ -429,8 +439,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF529FF8285D048E00B69D43 /* CollectionViewController.m in Sources */,
 				BF529F70285A46D900B69D43 /* ViewController.m in Sources */,
 				BF529FA2285A791500B69D43 /* TableViewCell.m in Sources */,
+				BF529FFB285D04E300B69D43 /* CollectionViewCell.m in Sources */,
 				BF529F9F285A4D2100B69D43 /* MovieViewController.m in Sources */,
 				BF529F6A285A46D900B69D43 /* AppDelegate.m in Sources */,
 				BF529FF5285BEC6F00B69D43 /* DetailsViewController.m in Sources */,
