@@ -47,7 +47,7 @@ your app in certain ways, etc):
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](gif_walkthrough.gif)
+![Video Walkthrough](gif_walkthrough_fixed.gif)
 
 GIF created with [Kap](https://getkap.co/).
 
