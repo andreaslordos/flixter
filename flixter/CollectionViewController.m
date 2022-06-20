@@ -26,7 +26,8 @@ static NSString * const reuseIdentifier = @"movie_poster";
 // Updates the tableView with the new data
 // Hides the RefreshControl
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
-      [self.activityIndicator startAnimating];
+    [self.activityIndicator startAnimating];
+    [refreshControl setTintColor:[UIColor whiteColor]];
     NSTimeInterval delayInSeconds = 0.1;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
