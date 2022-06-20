@@ -10,14 +10,39 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
 
-@interface MovieViewController () <UITableViewDataSource>
+@interface MovieViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (nonatomic, strong) NSArray *resultsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSArray *filteredResultsArray;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+
 @end
 
 @implementation MovieViewController
+
+
+
+- (void)viewDidLoad {
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.searchBar.delegate = self;
+    
+    
+    
+    [super viewDidLoad];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+
+    // add refresh control to table view
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+
+    [self beginRefresh:self.refreshControl];
+    
+}
 
 // Makes a network request to get updated data
 // Updates the tableView with the new data
@@ -63,10 +88,10 @@
               NSLog(@"%@", dataDictionary);
 
               self.resultsArray = dataDictionary[@"results"];
-
+              self.filteredResultsArray = self.resultsArray;
               // Reload the tableView now that there is new data
                [self.tableView reloadData];
-
+              
               // Tell the refreshControl to stop spinning
                [refreshControl endRefreshing];
           }
@@ -75,25 +100,6 @@
       
       [task resume];
     });
-}
-
-
-- (void)viewDidLoad {
-
-    
-
-    [super viewDidLoad];
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
-
-    // add refresh control to table view
-    [self.tableView insertSubview:self.refreshControl atIndex:0];
-
-    [self beginRefresh:self.refreshControl];
-    
-    self.tableView.dataSource = self;
-
 }
 
 /*
@@ -108,7 +114,7 @@
 
 - (nonnull TableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TableViewCell"];
-    NSDictionary *movie = self.resultsArray[indexPath.row];
+    NSDictionary *movie = self.filteredResultsArray[indexPath.row];
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
     NSString *posterURLString = movie[@"poster_path"];
     NSString *fullURL = [baseURLString stringByAppendingString:posterURLString];
@@ -124,15 +130,36 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //NSLog(@"Size: %lu", [self.resultsArray count]);
-    return [self.resultsArray count];
+    return [self.filteredResultsArray count];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSDictionary *dataToPass = self.resultsArray[indexPath.row];
+    NSDictionary *dataToPass = self.filteredResultsArray[indexPath.row];
     DetailsViewController *detailVC = [segue destinationViewController];
     detailVC.detailDict = dataToPass;
 }
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSLog(@"%@", @"hELLO WORLD");
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject[@"title"] containsString:searchText];
+        }];
+        self.filteredResultsArray = [self.resultsArray filteredArrayUsingPredicate:predicate];
+        
+        NSLog(@"%@", self.filteredResultsArray);
+        
+    }
+    else {
+        self.filteredResultsArray = self.resultsArray;
+    }
+    
+    [self.tableView reloadData];
+ 
+}
+
 
 @end
