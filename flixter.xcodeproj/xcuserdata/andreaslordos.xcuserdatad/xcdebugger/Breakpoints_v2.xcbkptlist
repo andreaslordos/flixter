@@ -14,10 +14,42 @@
             filePath = "flixter/TableViewCell.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
             landmarkName = "unknown"
             landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "15F8D425-8BE6-4236-AE8A-7BA60838CA57 - e94f583c020eb536"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[TableViewCell moviedescription]"
+                  moduleName = "flixter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/andreaslordos/Desktop/codepath/flixter/flixter/TableViewCell.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "15F8D425-8BE6-4236-AE8A-7BA60838CA57 - 89fa2376998ba3c6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[TableViewCell setMoviedescription:]"
+                  moduleName = "flixter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/andreaslordos/Desktop/codepath/flixter/flixter/TableViewCell.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -7,6 +7,8 @@
 
 #import "DetailsViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "Movie.h"
+
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *backdrop;
 @property (weak, nonatomic) IBOutlet UIImageView *details_poster;
@@ -18,24 +20,16 @@
 
 - (void)viewDidLoad {
     
-    NSDictionary *movie = self.detailDict;
-    
+    Movie *movie = self.detailDict;
     [super viewDidLoad];
-    self.details_title.text = movie[@"title"];
-    self.details_desc.text = movie[@"overview"];
+    self.details_title.text = movie.title;
+    self.details_desc.text = movie.desc;
     
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-    NSString *posterURLString = movie[@"poster_path"];
-    NSString *fullURL = [baseURLString stringByAppendingString:posterURLString];
-    NSURL *posterURL = [NSURL URLWithString:fullURL];
     self.details_poster.image = nil;
-    [self.details_poster setImageWithURL:posterURL];
+    [self.details_poster setImageWithURL:movie.posterURL];
 
-    NSString *backdropURLString = movie[@"backdrop_path"];
-    NSString *fullURL2 = [baseURLString stringByAppendingString:backdropURLString];
-    NSURL *backdropURL = [NSURL URLWithString:fullURL2];
     self.backdrop.image = nil;
-    [self.backdrop setImageWithURL:backdropURL];
+    [self.backdrop setImageWithURL:movie.backdropURL];
 
 }
 

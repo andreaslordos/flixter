@@ -24,6 +24,8 @@
 		BF529FF5285BEC6F00B69D43 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FF4285BEC6F00B69D43 /* DetailsViewController.m */; };
 		BF529FF8285D048E00B69D43 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FF7285D048E00B69D43 /* CollectionViewController.m */; };
 		BF529FFB285D04E300B69D43 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF529FFA285D04E300B69D43 /* CollectionViewCell.m */; };
+		BFCB10A02861326D00606C83 /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCB109F2861326D00606C83 /* Movie.m */; };
+		BFCB10A32861501600606C83 /* MovieApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCB10A22861501600606C83 /* MovieApiManager.m */; };
 		F0A224513852A513EBF1C86C /* Pods_flixter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB9E5CC37BCDC85911230FE /* Pods_flixter.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,10 @@
 		BF529FF7285D048E00B69D43 /* CollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		BF529FF9285D04E300B69D43 /* CollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		BF529FFA285D04E300B69D43 /* CollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		BFCB109E2861326D00606C83 /* Movie.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		BFCB109F2861326D00606C83 /* Movie.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		BFCB10A12861501600606C83 /* MovieApiManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieApiManager.h; sourceTree = "<group>"; };
+		BFCB10A22861501600606C83 /* MovieApiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieApiManager.m; sourceTree = "<group>"; };
 		D8906682A54D790F25A68B2A /* Pods-flixterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixterTests.debug.xcconfig"; path = "Target Support Files/Pods-flixterTests/Pods-flixterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E719D9B70D9B47DB5173EA43 /* Pods-flixter-flixterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixter-flixterUITests.release.xcconfig"; path = "Target Support Files/Pods-flixter-flixterUITests/Pods-flixter-flixterUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EA679A6E746368039A0FD48D /* Pods-flixterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flixterTests.release.xcconfig"; path = "Target Support Files/Pods-flixterTests/Pods-flixterTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +163,10 @@
 				BF529F9E285A4D2100B69D43 /* MovieViewController.m */,
 				BF529F79285A46DA00B69D43 /* Info.plist */,
 				BF529F7A285A46DA00B69D43 /* main.m */,
+				BFCB109E2861326D00606C83 /* Movie.h */,
+				BFCB109F2861326D00606C83 /* Movie.m */,
+				BFCB10A12861501600606C83 /* MovieApiManager.h */,
+				BFCB10A22861501600606C83 /* MovieApiManager.m */,
 			);
 			path = flixter;
 			sourceTree = "<group>";
@@ -441,12 +451,14 @@
 			files = (
 				BF529FF8285D048E00B69D43 /* CollectionViewController.m in Sources */,
 				BF529F70285A46D900B69D43 /* ViewController.m in Sources */,
+				BFCB10A02861326D00606C83 /* Movie.m in Sources */,
 				BF529FA2285A791500B69D43 /* TableViewCell.m in Sources */,
 				BF529FFB285D04E300B69D43 /* CollectionViewCell.m in Sources */,
 				BF529F9F285A4D2100B69D43 /* MovieViewController.m in Sources */,
 				BF529F6A285A46D900B69D43 /* AppDelegate.m in Sources */,
 				BF529FF5285BEC6F00B69D43 /* DetailsViewController.m in Sources */,
 				BF529F7B285A46DA00B69D43 /* main.m in Sources */,
+				BFCB10A32861501600606C83 /* MovieApiManager.m in Sources */,
 				BF529F6D285A46D900B69D43 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

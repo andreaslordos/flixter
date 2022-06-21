@@ -6,6 +6,7 @@
 //
 
 #import "TableViewCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @implementation TableViewCell
 
@@ -20,4 +21,13 @@
     // Configure the view for the selected state
 }
 
+- (void)setMovie:(Movie *)movie {
+    _movie = movie;
+    self.movieimage.image = nil;
+    
+    [self.movieimage setImageWithURL:self.movie.posterURL];
+    self.movietitle.text = self.movie.title;
+    self.moviedescription.text = self.movie.desc;
+
+}
 @end

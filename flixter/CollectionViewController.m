@@ -10,9 +10,9 @@
 #import "UIImageView+AFNetworking.h"
 #import "CollectionViewCell.h"
 #import "DetailsViewController.h"
-
+#import "MovieApiManager.h"
 @interface CollectionViewController ()
-@property (nonatomic, strong) NSArray *resultsArray;
+@property (nonatomic, strong) NSMutableArray *resultsArray;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @end
@@ -25,58 +25,33 @@ static NSString * const reuseIdentifier = @"movie_poster";
 // Makes a network request to get updated data
 // Updates the tableView with the new data
 // Hides the RefreshControl
+
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
     [self.activityIndicator startAnimating];
     [refreshControl setTintColor:[UIColor whiteColor]];
-    NSTimeInterval delayInSeconds = 0.1;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 
-
-      // Create NSURL and NSURLRequest
-
-      NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                            delegate:nil
-                                                       delegateQueue:[NSOperationQueue mainQueue]];
-      session.configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-  
-      NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=0363a94d02caa988558131c145d73974"];
-
-      NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    MovieApiManager *manager = [MovieApiManager new];
     
-      NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-          if (error != nil) {
-              UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
-                                         message:@"The internet connection appears to be offline."
-                                         preferredStyle:UIAlertControllerStyleAlert];
+    [manager fetchNowPlaying:^(NSArray *movies, NSError *error) {
+        if (error != nil) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
+                                        message:@"The internet connection appears to be offline."
+                                        preferredStyle:UIAlertControllerStyleAlert];
 
-              UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {[self beginRefresh:self.refreshControl];}];
+            UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction * action) {[self beginRefresh:self.refreshControl];}];
 
-              [alert addAction:retryAction];
-              [self presentViewController:alert animated:YES completion:nil];
+            [alert addAction:retryAction];
+            [self presentViewController:alert animated:YES completion:nil];
 
-          }
-          else {
-              
-              // ... Use the new data to update the data source ...
-              NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-              NSLog(@"%@", dataDictionary);
-
-              self.resultsArray = dataDictionary[@"results"];
-
-              // Reload the tableView now that there is new data
-               [self.collectionView reloadData];
-
-              // Tell the refreshControl to stop spinning
-               [refreshControl endRefreshing];
-          }
-          [self.activityIndicator stopAnimating];
-      }];
-      
-      [task resume];
-    });
+        }
+        else {
+            self.resultsArray = [movies mutableCopy];
+            [self.collectionView reloadData];
+            [refreshControl endRefreshing];
+            [self.activityIndicator stopAnimating];
+        }
+    }];
 }
 
 
@@ -101,7 +76,7 @@ static NSString * const reuseIdentifier = @"movie_poster";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender];
-    NSDictionary *dataToPass = self.resultsArray[indexPath.row];
+    Movie *dataToPass = self.resultsArray[indexPath.row];
     DetailsViewController *detailVC = [segue destinationViewController];
     detailVC.detailDict = dataToPass;
 }
@@ -120,14 +95,7 @@ static NSString * const reuseIdentifier = @"movie_poster";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {    
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    NSDictionary *movie = self.resultsArray[indexPath.row];
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-    NSString *posterURLString = movie[@"poster_path"];
-    NSString *fullURL = [baseURLString stringByAppendingString:posterURLString];
-    NSURL *posterURL = [NSURL URLWithString:fullURL];
-    cell.movie_image.image = nil;
-    [cell.movie_image setImageWithURL:posterURL];
-        
+    cell.movie = self.resultsArray[indexPath.row];
     return cell;
 }
 

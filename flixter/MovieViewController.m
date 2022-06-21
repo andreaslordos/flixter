@@ -9,13 +9,15 @@
 #import "TableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
+#import "Movie.h"
+#import "MovieApiManager.h"
 
 @interface MovieViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
-@property (nonatomic, strong) NSArray *resultsArray;
+@property (nonatomic, strong) NSMutableArray *resultsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) NSArray *filteredResultsArray;
+@property (strong, nonatomic) NSMutableArray *filteredResultsArray;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
@@ -47,59 +49,34 @@
 // Makes a network request to get updated data
 // Updates the tableView with the new data
 // Hides the RefreshControl
+
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
     [self.activityIndicator startAnimating];
     [refreshControl setTintColor:[UIColor whiteColor]];
 
-    NSTimeInterval delayInSeconds = 0.1;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-
-
-      // Create NSURL and NSURLRequest
-
-      NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                            delegate:nil
-                                                       delegateQueue:[NSOperationQueue mainQueue]];
-      session.configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-  
-      NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=0363a94d02caa988558131c145d73974"];
-
-      NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    MovieApiManager *manager = [MovieApiManager new];
     
-      NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-          if (error != nil) {
-              UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
-                                         message:@"The internet connection appears to be offline."
-                                         preferredStyle:UIAlertControllerStyleAlert];
+    [manager fetchNowPlaying:^(NSArray *movies, NSError *error) {
+        if (error != nil) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
+                                        message:@"The internet connection appears to be offline."
+                                        preferredStyle:UIAlertControllerStyleAlert];
 
-              UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {[self beginRefresh:self.refreshControl];}];
+            UIAlertAction* retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction * action) {[self beginRefresh:self.refreshControl];}];
 
-              [alert addAction:retryAction];
-              [self presentViewController:alert animated:YES completion:nil];
+            [alert addAction:retryAction];
+            [self presentViewController:alert animated:YES completion:nil];
 
-          }
-          else {
-              
-              // ... Use the new data to update the data source ...
-              NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-              NSLog(@"%@", dataDictionary);
-
-              self.resultsArray = dataDictionary[@"results"];
-              self.filteredResultsArray = self.resultsArray;
-              // Reload the tableView now that there is new data
-               [self.tableView reloadData];
-              
-              // Tell the refreshControl to stop spinning
-               [refreshControl endRefreshing];
-          }
-          [self.activityIndicator stopAnimating];
-      }];
-      
-      [task resume];
-    });
+        }
+        else {
+            self.resultsArray = [movies mutableCopy];
+            self.filteredResultsArray = self.resultsArray;
+            [self.tableView reloadData];
+            [refreshControl endRefreshing];
+            [self.activityIndicator stopAnimating];
+        }
+    }];
 }
 
 /*
@@ -114,17 +91,7 @@
 
 - (nonnull TableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TableViewCell"];
-    NSDictionary *movie = self.filteredResultsArray[indexPath.row];
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-    NSString *posterURLString = movie[@"poster_path"];
-    NSString *fullURL = [baseURLString stringByAppendingString:posterURLString];
-    NSURL *posterURL = [NSURL URLWithString:fullURL];
-    cell.movieimage.image = nil;
-    [cell.movieimage setImageWithURL:posterURL];
-    
-    cell.movietitle.text = movie[@"title"];
-    cell.moviedescription.text = movie[@"overview"];
-    
+    cell.movie = self.filteredResultsArray[indexPath.row];
     return cell;
 }
 
@@ -136,29 +103,23 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSDictionary *dataToPass = self.filteredResultsArray[indexPath.row];
+    Movie *dataToPass = self.filteredResultsArray[indexPath.row];
     DetailsViewController *detailVC = [segue destinationViewController];
     detailVC.detailDict = dataToPass;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSLog(@"%@", @"hELLO WORLD");
     if (searchText.length != 0) {
-        
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject, NSDictionary *bindings) {
-            return [evaluatedObject[@"title"] containsString:searchText];
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Movie* evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.title containsString:searchText];
         }];
-        self.filteredResultsArray = [self.resultsArray filteredArrayUsingPredicate:predicate];
-        
+        self.filteredResultsArray = [[self.resultsArray filteredArrayUsingPredicate:predicate] mutableCopy];
         NSLog(@"%@", self.filteredResultsArray);
-        
     }
     else {
         self.filteredResultsArray = self.resultsArray;
     }
-    
     [self.tableView reloadData];
- 
 }
 
 

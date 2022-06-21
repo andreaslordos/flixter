@@ -6,7 +6,15 @@
 //
 
 #import "CollectionViewCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @implementation CollectionViewCell
+
+- (void)setMovie:(Movie *)movie {
+    _movie = movie;
+    self.movie_image.image = nil;
+    [self.movie_image setImageWithURL:self.movie.posterURL];
+
+}
 
 @end
