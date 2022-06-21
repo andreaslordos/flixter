@@ -211,7 +211,7 @@
             </objects>
             <point key="canvasLocation" x="744.92753623188412" y="-185.49107142857142"/>
         </scene>
-        <!--Movies-->
+        <!--Trending-->
         <scene sceneID="6eP-vE-IyC">
             <objects>
                 <collectionViewController id="v2i-rE-R0r" customClass="CollectionViewController" sceneMemberID="viewController">
@@ -262,7 +262,7 @@
                             <outlet property="delegate" destination="v2i-rE-R0r" id="Ytg-vS-bqg"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Movies" image="reel_tabbar_icon" id="sac-YU-m16"/>
+                    <tabBarItem key="tabBarItem" title="Trending" image="reel_tabbar_icon" id="sac-YU-m16"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gQd-o2-xiZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -270,7 +270,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UYT-CB-v52"/>
+        <segue reference="Gi5-Ua-rod"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="now_playing_tabbar_item" width="21" height="21"/>

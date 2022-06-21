@@ -32,7 +32,7 @@ static NSString * const reuseIdentifier = @"movie_poster";
 
     MovieApiManager *manager = [MovieApiManager new];
     
-    [manager fetchNowPlaying:^(NSArray *movies, NSError *error) {
+    [manager fetchPopular:^(NSArray *movies, NSError *error) {
         if (error != nil) {
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies"
                                         message:@"The internet connection appears to be offline."
